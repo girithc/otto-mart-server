@@ -1,7 +1,7 @@
-# Run Go File
+# GO API REPO SAMPLE
 
-go run filename
+https://github.com/anthdm/gobank/blob/master/storage.go
 
-# Test Http Connection
+# GO POSTGRES LIB/PQ SAMPLE
 
-curl localhost:8090/hello
+https://www.calhoun.io/querying-for-a-single-record-using-gos-database-sql-package/
