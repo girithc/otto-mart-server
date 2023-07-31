@@ -17,13 +17,15 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	} 
-    
-    fmt.Println("Store ", store)
-    
 
-	
+    if err := store.Init(); err != nil {
+		log.Fatal(err)
+	} else {
+        fmt.Println("No Error. Store.Init() is successful.")
+        fmt.Println("Error ", err)
+    }
 
-    server := api.NewServer(":3000")
+    server := api.NewServer(":3000", store)
     server.Run()
 }
  
