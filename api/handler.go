@@ -6,29 +6,28 @@ import (
 )
 
 
-func (s *Server) handleCategories(res http.ResponseWriter, req *http.Request) {
+func (s *Server) handleCategories(res http.ResponseWriter, req *http.Request) error {
 	
 
 	if req.Method == "GET" {
-		return 
+		fmt.Println("Category - (GET)")
+		return s.CreateCategory(res, req)
 	} else if req.Method == "POST" {
-		return 
+		fmt.Println("Category - (POST)")
+		return s.CreateCategory(res, req)
 	} else if req.Method == "PUT" {
-		return 
+		return nil
 	} else if req.Method == "DELETE" {
-		return 
-	} else {
-		return 
-	}
+		return nil
+	} 
 
-	return 
+	return nil
 }
 
-func (s *Server) handleProducts(res http.ResponseWriter, req *http.Request) {
+func (s *Server) handleProducts(res http.ResponseWriter, req *http.Request) error{
 	fmt.Fprintf(res, "Products Endpoint Reached.")
 	if req.URL.Path == "/products/" {
-		if req.Method == http.MethodPost {
-
-		} 
+		
 	}
+	return nil
 }

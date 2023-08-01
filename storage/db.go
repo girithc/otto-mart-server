@@ -14,7 +14,7 @@ type PostgresStore struct {
 func NewPostgresStore() (*PostgresStore, error) {
 	fmt.Println("Entered NewPostgresStore() -- db.go")
 
-	connStr := "user=girithc dbname=prontodb password=password sslmode=disable"
+	connStr := "user=postgres dbname=prontodb password=g190201 sslmode=disable"
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		fmt.Println("Exiting (Err) NewPostgresStore() -- db.go")

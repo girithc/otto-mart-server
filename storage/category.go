@@ -11,10 +11,8 @@ func (s *PostgresStore) CreateCategoryTable() error {
 	query := `create table if not exists category (
 		id serial primary key,
 		name varchar(100),
-		category varchar(100),
+		parent_category bool,
 		number serial,
-		number_of_products int,
-		quantity int,
 		created_at timestamp
 	)`
 
@@ -27,15 +25,13 @@ func (s *PostgresStore) CreateCategoryTable() error {
 
 func (s *PostgresStore) CreateCategory(c *types.Category) error {
 	query := `insert into category 
-	(name, category, number, number_of_products, quantity, created_at)
-	values ($1, $2, $3, $4, $5)`
+	(name, parent_category, number, created_at)
+	values ($1, $2, $3, $4)`
 	_, err := s.db.Query(
 		query,
 		c.Name,
-		c.Category,
+		c.ParentCategory,
 		c.Number,
-		c.NumberOfProducts,
-		c.Quantity,
 		c.CreatedAt)
 
 	if err != nil {
