@@ -29,3 +29,13 @@ func (s *Server) CreateCategory( res http.ResponseWriter, req *http.Request) err
 
 	return WriteJSON(res, http.StatusOK, category)
 }
+
+func (s *Server) GetCategory( res http.ResponseWriter, req *http.Request) error {
+	
+	categories, err := s.store.GetCategory()
+	if err != nil {
+		return err
+	}
+
+	return WriteJSON(res, http.StatusOK, categories)
+}

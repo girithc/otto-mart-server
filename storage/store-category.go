@@ -1,7 +1,9 @@
 package storage
 
 import (
+	"fmt"
 	"pronto-go/types"
+	"database/sql"
 	_ "github.com/lib/pq"
 )
 
@@ -39,4 +41,40 @@ func (s *PostgresStore) CreateCategory(c *types.Category) error {
 	}
 
 	return nil
+}
+
+func (s *PostgresStore) GetCategory()  ([]*types.Category,  error) {
+	
+	rows, err := s.db.Query("select * from category")
+	
+	fmt.Println("Categories - GET ", rows)
+
+	if err != nil {
+		return nil, err
+	}
+
+	categories := []*types.Category{}
+	for rows.Next() {
+		category, err := scanIntoCategory(rows)
+		if err != nil {
+			return nil, err
+		}
+		categories = append(categories, category)
+	}
+
+
+	return categories, nil
+}
+
+func scanIntoCategory(rows *sql.Rows) (*types.Category, error) {
+	category := new(types.Category)
+	err := rows.Scan(
+		&category.ID, 
+		&category.Name,
+		&category.ParentCategory,
+		&category.Number,
+		&category.CreatedAt,
+	)
+
+	return category, err
 }

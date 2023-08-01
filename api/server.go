@@ -21,9 +21,13 @@ func NewServer(listen_address string, store *storage.PostgresStore) *Server {
 }
 
 func (s *Server) Run() {
+	
 
-	http.HandleFunc("/categories", makeHTTPHandleFunc(s.handleCategories))
-	http.HandleFunc("/products", makeHTTPHandleFunc(s.handleProducts))
+	http.HandleFunc("/store/available", makeHTTPHandleFunc(s.handleStoreClient))
+	http.HandleFunc("/store", makeHTTPHandleFunc(s.handleStoreManager))
+	
+	http.HandleFunc("/category", makeHTTPHandleFunc(s.handleCategories))
+	http.HandleFunc("/item", makeHTTPHandleFunc(s.handleProducts))
 
 	fmt.Println("Server Store: ",s.store)
 
