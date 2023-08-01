@@ -12,7 +12,7 @@ func (s *PostgresStore) CreateCategoryTable() error {
 		id serial primary key,
 		name varchar(100),
 		parent_category bool,
-		number serial,
+		number serial unique,
 		created_at timestamp
 	)`
 
