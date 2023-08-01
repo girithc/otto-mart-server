@@ -1,8 +1,9 @@
 package storage
 
 import (
+	"database/sql"
 	"fmt"
-    "database/sql"
+
 	_ "github.com/lib/pq"
 )
 
@@ -40,18 +41,62 @@ func (s *PostgresStore) Init() error {
 
 	fmt.Println("Entered Init() -- db.go")
 
-	errProduct := s.CreateProductTable()
-	if errProduct != nil{
-		return errProduct
-	} else {
-		fmt.Println("	CreateProductTable success")
-	}
+	
 
 	errCategory := s.CreateCategoryTable()
 	if errCategory != nil{
 		return errCategory
 	} else {
-		fmt.Println("	CreateCategoryTable success")
+		fmt.Println("Success - Created Category Table")
+	}
+
+	errStore := s.CreateStoreTable()
+	if errStore != nil{
+		return errStore
+	} else {
+		fmt.Println("Success - Created Store Table")
+	}
+
+	errItem := s.CreateItemTable()
+	if errItem != nil{
+		return errItem
+	} else {
+		fmt.Println("Success - Created Item Table")
+	}
+
+	errCustomer := s.CreateCustomerTable()
+	if errCustomer != nil{
+		return errCustomer
+	} else {
+		fmt.Println("Success - Created Customer Table")
+	}
+
+	errShoppingCart := s.CreateShoppingCartTable()
+	if errShoppingCart != nil{
+		return errShoppingCart
+	}else {
+		fmt.Println("Success - Created Shopping Cart Table")
+	}
+
+	errCartItem := s.CreateCartItemTable()
+	if errCartItem != nil{
+		return errCartItem
+	}else {
+		fmt.Println("Success - Created Cart Item Table")
+	}
+
+	errHigherLevelCategory := s.CreateHigherLevelCategoryTable()
+	if errHigherLevelCategory != nil{
+		return errHigherLevelCategory
+	} else {
+		fmt.Println("Success - Created Higher Level Category Table")
+	}
+
+	errCategoryHigherLevelMapping := s.CreateCategoryHigherLevelMappingTable()
+	if errCategoryHigherLevelMapping != nil{
+		return errCategoryHigherLevelMapping
+	} else {
+		fmt.Println("Success - Created Category Higher Level Mapping Table")
 	}
 
 	fmt.Println("Exiting Init() -- db.go")

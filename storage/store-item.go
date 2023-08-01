@@ -1,24 +1,29 @@
 package storage
+
 import (
+	"fmt"
 	"pronto-go/types"
+
 	_ "github.com/lib/pq"
 )
 
-func (s *PostgresStore) CreateProductTable() error {
-	//fmt.Println("Entered CreateProductTable -- product.go")
+func (s *PostgresStore) CreateItemTable() error {
+	fmt.Println("Entered CreateItemTable")
 
-	query := `create table if not exists product (
-		id serial primary key,
-		name varchar(100),
-		category varchar(100),
-		number serial,
-		quantity int,
-		created_at timestamp
+	query := `create table if not exists item (
+		item_id SERIAL PRIMARY KEY,
+		item_name VARCHAR(100) NOT NULL,
+		price DECIMAL(10, 2) NOT NULL,
+		store_id INT REFERENCES Store(store_id) ON DELETE CASCADE,
+		category_id INT REFERENCES Category(category_id) ON DELETE CASCADE,
+		stock_quantity INT NOT NULL,
+		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		created_by INT
 	)`
 
 	_, err := s.db.Exec(query)
 
-	//fmt.Println("Exiting CreateProductTable -- product.go")
+	fmt.Println("Exiting CreateItemTable")
 
 	return err
 }

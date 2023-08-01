@@ -1,26 +1,26 @@
 package storage
 
 import (
+	"database/sql"
 	"fmt"
 	"pronto-go/types"
-	"database/sql"
+
 	_ "github.com/lib/pq"
 )
 
 func (s *PostgresStore) CreateCategoryTable() error {
-	//fmt.Println("Entered CreateCategoryTable -- category.go")
+	fmt.Println("Entered CreateCategoryTable")
 
 	query := `create table if not exists category (
-		id serial primary key,
-		name varchar(100),
-		parent_category bool,
-		number serial unique,
-		created_at timestamp
+		category_id SERIAL PRIMARY KEY,
+    	category_name VARCHAR(100) NOT NULL,
+		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		created_by INT 
 	)`
 
 	_, err := s.db.Exec(query)
 
-	//fmt.Println("Exiting CreateCategoryTable -- category.go")
+	fmt.Println("Exiting CreateCategoryTable")
 
 	return err
 }
