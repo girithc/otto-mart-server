@@ -1,11 +1,10 @@
 package api
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
-	"encoding/json"
 	"pronto-go/storage"
-
 )
 
 type Server struct {
@@ -26,8 +25,8 @@ func (s *Server) Run() {
 	http.HandleFunc("/store/available", makeHTTPHandleFunc(s.handleStoreClient))
 	http.HandleFunc("/store", makeHTTPHandleFunc(s.handleStoreManager))
 	
-	http.HandleFunc("/category", makeHTTPHandleFunc(s.handleCategories))
-	http.HandleFunc("/item", makeHTTPHandleFunc(s.handleProducts))
+	http.HandleFunc("/category", makeHTTPHandleFunc(s.handleCategory))
+	http.HandleFunc("/item", makeHTTPHandleFunc(s.handleItem))
 
 	fmt.Println("Server Store: ",s.store)
 

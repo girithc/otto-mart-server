@@ -1,9 +1,9 @@
 package api
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
-	"encoding/json"
 	"pronto-go/types"
 )
 
@@ -11,7 +11,7 @@ import (
 
 func (s *Server) CreateCategory( res http.ResponseWriter, req *http.Request) error{
 	
-	new_req := new(types.CreateCategory)
+	new_req := new(types.Create_Category)
 	
 	if err := json.NewDecoder(req.Body).Decode(new_req); err != nil {
 		fmt.Println("Error in Decoding req.body in CreateCategory()")

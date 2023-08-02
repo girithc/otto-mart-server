@@ -5,6 +5,8 @@ import (
 	"net/http"
 )
 
+// Store
+
 func (s *Server) handleStoreClient(res http.ResponseWriter, req *http.Request) error {
 
 	if req.Method == "GET" {
@@ -18,15 +20,26 @@ func (s *Server) handleStoreClient(res http.ResponseWriter, req *http.Request) e
 func (s *Server) handleStoreManager(res http.ResponseWriter, req *http.Request) error {
 
 	if req.Method == "GET" {
-		storeId := req.URL.Query().Get("id")
-		fmt.Println("Store Id =>", storeId)
+		fmt.Println("[GET] - Store(s)")
+		return s.Handle_Get_Stores(res, req)
+	} else if req.Method == "POST" {
+		fmt.Println("[POST] - Store")
+		return s.Handle_Create_Store(res, req)
+	} else if req.Method == "PUT" {
+		fmt.Println("[PUT] - Store")
+		return s.Handle_Update_Store(res, req)
+	} else if req.Method == "DELETE" {
+		fmt.Println("[DELETE] - Store")
+		return s.Handle_Delete_Store(res, req)
 	}
 
-	return nil
+	return fmt.Errorf("No Matching Path")
 }
 
 
-func (s *Server) handleCategories(res http.ResponseWriter, req *http.Request) error {
+// Category
+
+func (s *Server) handleCategory(res http.ResponseWriter, req *http.Request) error {
 	
 
 	if req.Method == "GET" {
@@ -44,7 +57,9 @@ func (s *Server) handleCategories(res http.ResponseWriter, req *http.Request) er
 	return nil
 }
 
-func (s *Server) handleProducts(res http.ResponseWriter, req *http.Request) error{
+// Item
+
+func (s *Server) handleItem(res http.ResponseWriter, req *http.Request) error{
 	
 	return nil
 }

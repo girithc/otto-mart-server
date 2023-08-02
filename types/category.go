@@ -12,7 +12,7 @@ type Category struct {
 	CreatedAt         time.Time `json:"createdAt"`
 }
 
-type CreateCategory struct {
+type Create_Category struct {
 
 	Name   string    `json:"name"`
 	ParentCategory bool `json:"parentCategory"`
@@ -24,6 +24,5 @@ func NewCategory(name string, parentCategory bool, ) (*Category, error) {
 		Name: name, 
 		ParentCategory: parentCategory,
 		Number: 1,
-		CreatedAt: time.Now().UTC(),
 	}, nil
 }
