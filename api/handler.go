@@ -66,23 +66,30 @@ func (s *Server) handleHigherLevelCategory(res http.ResponseWriter, req *http.Re
 // Category
 
 func (s *Server) handleCategory(res http.ResponseWriter, req *http.Request) error {
-	
-
 	if req.Method == "GET" {
-		fmt.Println("Category - (GET)")
-		return s.GetCategory(res, req)
+
+		print_path("GET", "category")
+		return s.Handle_Get_Categories(res, req)
+
 	} else if req.Method == "POST" {
-		fmt.Println("Category - (POST)")
-		return s.CreateCategory(res, req)
+
+		print_path("POST", "category")
+		return s.Handle_Create_Category(res, req)
+
 	} else if req.Method == "PUT" {
-		return nil
+
+		print_path("PUT", "category")
+		return s.Handle_Update_Category(res, req)
+
 	} else if req.Method == "DELETE" {
-		return nil
-	} 
+
+		print_path("DELETE", "category")
+		return s.Handle_Delete_Category(res, req)
+		
+	}
 
 	return nil
 }
-
 // Item
 
 func (s *Server) handleItem(res http.ResponseWriter, req *http.Request) error{

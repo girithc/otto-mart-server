@@ -10,8 +10,8 @@ https://www.calhoun.io/querying-for-a-single-record-using-gos-database-sql-packa
 
 -- Create the Store table (same as before)
 CREATE TABLE Store (
-store_id SERIAL PRIMARY KEY,
-store_name VARCHAR(100) NOT NULL,
+id SERIAL PRIMARY KEY,
+name VARCHAR(100) NOT NULL,
 address VARCHAR(200) NOT NULL,
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 created_by INT
@@ -19,8 +19,8 @@ created_by INT
 
 -- Create the Higher_Level_Category table
 CREATE TABLE Higher_Level_Category (
-higher_level_category_id SERIAL PRIMARY KEY,
-higher_level_category_name VARCHAR(100) NOT NULL,
+id SERIAL PRIMARY KEY,
+name VARCHAR(100) NOT NULL,
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 created_by INT
 );
