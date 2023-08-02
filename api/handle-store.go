@@ -18,7 +18,7 @@ func (s *Server) Handle_Create_Store(res http.ResponseWriter, req *http.Request)
 		return err
 	}
 	
-	new_store, err := types.New_Store(new_req.Store_Name, new_req.Address)
+	new_store, err := types.New_Store(new_req.Name, new_req.Address)
 
 	if err != nil {
 		return err
@@ -50,13 +50,13 @@ func (s *Server) Handle_Update_Store(res http.ResponseWriter, req *http.Request)
 		return err
 	}
 
-	store, err := s.store.Get_Store_By_ID(new_req.Store_ID)
+	store, err := s.store.Get_Store_By_ID(new_req.ID)
 	if err != nil {
 		return err
 	}
 	
-	if len(new_req.Store_Name) == 0 {
-		new_req.Store_Name = store.Store_Name
+	if len(new_req.Name) == 0 {
+		new_req.Name = store.Name
 	}
 	if len(new_req.Address) == 0 {
 		new_req.Address = store.Address
@@ -76,9 +76,9 @@ func (s *Server) Handle_Delete_Store(res http.ResponseWriter, req *http.Request)
 		return err
 	}
 
-	if err := s.store.Delete_Store(new_req.Store_ID); err != nil {
+	if err := s.store.Delete_Store(new_req.ID); err != nil {
 		return err
 	}
 
-	return WriteJSON(res, http.StatusOK, map[string]int{"deleted": new_req.Store_ID})
+	return WriteJSON(res, http.StatusOK, map[string]int{"deleted": new_req.ID})
 }

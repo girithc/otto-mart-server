@@ -24,6 +24,8 @@ func (s *Server) Run() {
 
 	http.HandleFunc("/store/available", makeHTTPHandleFunc(s.handleStoreClient))
 	http.HandleFunc("/store", makeHTTPHandleFunc(s.handleStoreManager))
+
+	http.HandleFunc("/higher-level-category", makeHTTPHandleFunc(s.handleHigherLevelCategory))
 	
 	http.HandleFunc("/category", makeHTTPHandleFunc(s.handleCategory))
 	http.HandleFunc("/item", makeHTTPHandleFunc(s.handleItem))

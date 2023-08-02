@@ -12,8 +12,8 @@ func (s *PostgresStore) CreateStoreTable() error {
 	fmt.Println("Entered CreateStoreTable")
 
 	query := `create table if not exists store (
-		store_id SERIAL PRIMARY KEY,
-		store_name VARCHAR(100) NOT NULL,
+		id SERIAL PRIMARY KEY,
+		name VARCHAR(100) NOT NULL,
 		address VARCHAR(200) NOT NULL,
 		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 		created_by INT	
@@ -28,12 +28,12 @@ func (s *PostgresStore) CreateStoreTable() error {
 
 func (s *PostgresStore) Create_Store(st *types.Store) (*types.Store, error) {
 	query := `insert into store
-	(store_name, address, created_by) 
-	values ($1, $2, $3) returning store_id, store_name, address, created_at, created_by
+	(name, address, created_by) 
+	values ($1, $2, $3) returning id, name, address, created_at, created_by
 	`
 	rows, err := s.db.Query(
 		query,
-		st.Store_Name,
+		st.Name,
 		st.Address,
 		st.Created_By)
 
@@ -79,8 +79,8 @@ func (s *PostgresStore) Get_Stores() ([]*types.Store, error) {
 	return stores, nil
 }
 
-func (s *PostgresStore) Get_Store_By_ID(store_id int) (*types.Store, error) {
-	row, err := s.db.Query("select * from store where store_id = $1", store_id)
+func (s *PostgresStore) Get_Store_By_ID(id int) (*types.Store, error) {
+	row, err := s.db.Query("select * from store where id = $1", id)
 	if err != nil {
 		return nil, err
 	}
@@ -89,20 +89,20 @@ func (s *PostgresStore) Get_Store_By_ID(store_id int) (*types.Store, error) {
 		return scan_Into_Store(row)
 	}
 
-	return nil, fmt.Errorf("store with id = [%d] not found", store_id)
+	return nil, fmt.Errorf("store with id = [%d] not found", id)
 }
 
 func (s *PostgresStore) Update_Store(st *types.Update_Store) (*types.Update_Store,error) {
 	query := `update store
-	set store_name = $1, address = $2
-	where store_id = $3 
-	returning store_name, address, store_id`
+	set name = $1, address = $2
+	where id = $3 
+	returning name, address, id`
 	
 	rows, err := s.db.Query(
 		query, 
-		st.Store_Name,
+		st.Name,
 		st.Address,
-		st.Store_ID,
+		st.ID,
 	)
 
 	if err != nil {
@@ -123,16 +123,16 @@ func (s *PostgresStore) Update_Store(st *types.Update_Store) (*types.Update_Stor
 	return stores[0], nil
 }
 
-func (s *PostgresStore) Delete_Store(store_id int) error {
-	_, err := s.db.Query("delete from store where store_id = $1", store_id)
+func (s *PostgresStore) Delete_Store(id int) error {
+	_, err := s.db.Query("delete from store where id = $1", id)
 	return err
 }
 
 func scan_Into_Store (rows *sql.Rows) (*types.Store, error) {
 	store := new(types.Store)
 	err := rows.Scan(
-		&store.Store_ID,
-		&store.Store_Name,
+		&store.ID,
+		&store.Name,
 		&store.Address,
 		&store.Created_At,
 		&store.Created_By,
@@ -144,9 +144,9 @@ func scan_Into_Store (rows *sql.Rows) (*types.Store, error) {
 func scan_Into_Update_Store(rows *sql.Rows) (*types.Update_Store, error) {
 	store := new(types.Update_Store)
 	error := rows.Scan(
-		&store.Store_Name,
+		&store.Name,
 		&store.Address,
-		&store.Store_ID,
+		&store.ID,
 	)
 
 	return store, error

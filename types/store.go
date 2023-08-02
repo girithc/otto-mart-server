@@ -5,41 +5,41 @@ import (
 )
 
 type Store struct {
-	Store_ID                int       `json:"store_id"`
-	Store_Name				string	`json:"store_name"`
-	Address					string	`json:"address"`
+	ID                int       `json:"id"`
+	Name				string	`json:"name"`
+	Address				string	`json:"address"`
 	Created_At			time.Time  `json:"created_at"`
 	Created_By			int  `json:"created_by"`
 }
 
 type Create_Store struct {
-	Store_Name				string	`json:"store_name"`
+	Name				string	`json:"name"`
 	Address					string	`json:"address"`
 }
 
 type Update_Store struct {
-	Store_ID		int `json:"store_id"`
-	Store_Name		string `json:"store_name"`
+	ID		int `json:"id"`
+	Name		string `json:"name"`
 	Address	    	string `json:"address"`
 }
 
 type Delete_Store struct {
-	Store_ID		int `json:"store_id"`
+	ID		int `json:"id"`
 }
 
-func New_Store(store_name string, address string)(*Store, error) {
+func New_Store(name string, address string)(*Store, error) {
 	return &Store{
-		Store_Name: store_name,
+		Name: name,
 		Address: address,
 		Created_By: 1,
 	}, nil
 }
 
-func New_Update_Store(store_name string, address string, store_id int)(*Update_Store, error) {
+func New_Update_Store(name string, address string, id int)(*Update_Store, error) {
 	return &Update_Store{
-		Store_Name: store_name,
+		Name: name,
 		Address: address,
-		Store_ID: store_id,
+		ID: id,
 	}, nil
 }
 
