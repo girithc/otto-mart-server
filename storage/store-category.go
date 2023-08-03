@@ -8,46 +8,58 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func (s *PostgresStore) CreateCategoryTable() error {
-	fmt.Println("Entered CreateCategoryTable")
+func (s *PostgresStore) Create_Category_Table() error {
+	fmt.Println("Entered CreateHigherLevelCategoryTable")
 
 	query := `create table if not exists category (
-		category_id SERIAL PRIMARY KEY,
-    	category_name VARCHAR(100) NOT NULL,
+		id SERIAL PRIMARY KEY,
+    	name VARCHAR(100) NOT NULL,
 		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-		created_by INT 
+		created_by INT
 	)`
 
 	_, err := s.db.Exec(query)
 
-	fmt.Println("Exiting CreateCategoryTable")
+	fmt.Println("Exiting CreateHigherLevelCategoryTable")
 
 	return err
 }
 
-func (s *PostgresStore) CreateCategory(c *types.Category) error {
-	query := `insert into category 
-	(name, parent_category, number, created_at)
-	values ($1, $2, $3, $4)`
-	_, err := s.db.Query(
+func (s *PostgresStore) Create_Category(hlc *types.Category) (*types.Category, error) {
+	query := `insert into category
+	(name, created_by) 
+	values ($1, $2) returning id, name, created_at, created_by
+	`
+	rows, err := s.db.Query(
 		query,
-		c.Name,
-		c.ParentCategory,
-		c.Number,
-		c.CreatedAt)
+		hlc.Name,
+		hlc.Created_By)
+
+	fmt.Println("CheckPoint 1")
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	fmt.Println("CheckPoint 2")
+
+	categories := []*types.Category{}
+	
+	for rows.Next() {
+		category, err := scan_Into_Category(rows)
+		if err != nil {
+			return nil, err
+		}
+		categories = append(categories, category)
+	}
+
+	fmt.Println("CheckPoint 3")
+
+	return categories[0], nil
 }
 
-func (s *PostgresStore) GetCategory()  ([]*types.Category,  error) {
-	
+func (s *PostgresStore) Get_Categories() ([]*types.Category, error) {
 	rows, err := s.db.Query("select * from category")
-	
-	fmt.Println("Categories - GET ", rows)
 
 	if err != nil {
 		return nil, err
@@ -55,26 +67,82 @@ func (s *PostgresStore) GetCategory()  ([]*types.Category,  error) {
 
 	categories := []*types.Category{}
 	for rows.Next() {
-		category, err := scanIntoCategory(rows)
+		category, err := scan_Into_Category(rows)
 		if err != nil {
 			return nil, err
 		}
 		categories = append(categories, category)
 	}
 
-
 	return categories, nil
 }
 
-func scanIntoCategory(rows *sql.Rows) (*types.Category, error) {
+func (s *PostgresStore) Get_Category_By_ID(id int) (*types.Category, error) {
+	row, err := s.db.Query("select * from category where id = $1", id)
+	if err != nil {
+		return nil, err
+	}
+
+	for row.Next() {
+		return scan_Into_Category(row)
+	}
+
+	return nil, fmt.Errorf("category with id = [%d] not found", id)
+}
+
+func (s *PostgresStore) Update_Category(hlc *types.Update_Category) (*types.Update_Category,error) {
+	query := `update category
+	set name = $1
+	where id = $2 
+	returning name, id`
+	
+	rows, err := s.db.Query(
+		query, 
+		hlc.Name,
+		hlc.ID,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	categories := []*types.Update_Category{}
+	
+	for rows.Next() {
+		category, err := scan_Into_Update_Category(rows)
+		if err != nil {
+			return nil, err
+		}
+		categories = append(categories, category)
+	}
+	
+
+	return categories[0], nil
+}
+
+func (s *PostgresStore) Delete_Category(id int) error {
+	_, err := s.db.Query("delete from category where id = $1", id)
+	return err
+}
+
+func scan_Into_Category (rows *sql.Rows) (*types.Category, error) {
 	category := new(types.Category)
 	err := rows.Scan(
-		&category.ID, 
+		&category.ID,
 		&category.Name,
-		&category.ParentCategory,
-		&category.Number,
-		&category.CreatedAt,
+		&category.Created_At,
+		&category.Created_By,
 	)
 
 	return category, err
 }
+
+func scan_Into_Update_Category(rows *sql.Rows) (*types.Update_Category, error) {
+	category := new(types.Update_Category)
+	error := rows.Scan(
+		&category.Name,
+		&category.ID,
+	)
+
+	return category, error
+} 

@@ -7,71 +7,71 @@ import (
 	"pronto-go/types"
 )
 
-func (s *Server) Handle_Create_Higher_Level_Category(res http.ResponseWriter, req *http.Request) error {
+func (s *Server) Handle_Create_Category(res http.ResponseWriter, req *http.Request) error {
 	
-	new_req := new(types.Create_Higher_Level_Category)
+	new_req := new(types.Create_Category)
 	
 	if err := json.NewDecoder(req.Body).Decode(new_req); err != nil {
 		fmt.Println("Error in Decoding req.body in CreateCategory()")
 		return err
 	}
 	
-	new_higher_level_category, err := types.New_Higher_Level_Category(new_req.Name)
+	new_category, err := types.New_Category(new_req.Name)
 
 	if err != nil {
 		return err
 	}
-	higher_level_category, err := s.store.Create_Higher_Level_Category(new_higher_level_category); 
+	category, err := s.store.Create_Category(new_category); 
 	
 	if err != nil {
 		return err
 	}
 
-	return WriteJSON(res, http.StatusOK, higher_level_category)
+	return WriteJSON(res, http.StatusOK, category)
 }
 
-func (s *Server) Handle_Get_Higher_Level_Categories(res http.ResponseWriter, req *http.Request) error {
-	higher_level_categories, err := s.store.Get_Higher_Level_Categories()
+func (s *Server) Handle_Get_Categories(res http.ResponseWriter, req *http.Request) error {
+	categories, err := s.store.Get_Categories()
 	if err != nil {
 		return err
 	}
 
-	return WriteJSON(res, http.StatusOK, higher_level_categories)
+	return WriteJSON(res, http.StatusOK, categories)
 }
 
-func (s *Server) Handle_Update_Higher_Level_Category(res http.ResponseWriter, req *http.Request) error {
+func (s *Server) Handle_Update_Category(res http.ResponseWriter, req *http.Request) error {
 
 
-	new_req := new(types.Update_Higher_Level_Category)
+	new_req := new(types.Update_Category)
 	if err := json.NewDecoder(req.Body).Decode(new_req); err != nil {
-		fmt.Println("Error Decode Handle_Update_Higher_Level_Category()")
+		fmt.Println("Error Decode Handle_Update_Category()")
 		return err
 	}
 
-	higher_level_category, err := s.store.Get_Higher_Level_Category_By_ID(new_req.ID)
+	category, err := s.store.Get_Category_By_ID(new_req.ID)
 	if err != nil {
 		return err
 	}
 	
 	if len(new_req.Name) == 0 {
-		new_req.Name = higher_level_category.Name
+		new_req.Name = category.Name
 	}
 
-	updated_higher_level_category, err := s.store.Update_Higher_Level_Category(new_req)
+	updated_category, err := s.store.Update_Category(new_req)
 
 
-	return WriteJSON(res, http.StatusOK, updated_higher_level_category)
+	return WriteJSON(res, http.StatusOK, updated_category)
 }
 
-func (s *Server) Handle_Delete_Higher_Level_Category(res http.ResponseWriter, req *http.Request) error {
+func (s *Server) Handle_Delete_Category(res http.ResponseWriter, req *http.Request) error {
 	
-	new_req := new(types.Delete_Higher_Level_Category)
+	new_req := new(types.Delete_Category)
 	if err := json.NewDecoder(req.Body).Decode(new_req); err != nil {
-		fmt.Println("Error Decode Handle_Update_Higher_Level_Category()")
+		fmt.Println("Error Decode Handle_Update_Category()")
 		return err
 	}
 
-	if err := s.store.Delete_Higher_Level_Category(new_req.ID); err != nil {
+	if err := s.store.Delete_Category(new_req.ID); err != nil {
 		return err
 	}
 

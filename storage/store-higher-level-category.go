@@ -8,7 +8,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func (s *PostgresStore) CreateHigherLevelCategoryTable() error {
+func (s *PostgresStore) Create_Higher_Level_Category_Table() error {
 	fmt.Println("Entered CreateHigherLevelCategoryTable")
 
 	query := `create table if not exists higher_level_category (

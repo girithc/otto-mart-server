@@ -14,8 +14,8 @@ func (s *PostgresStore) CreateItemTable() error {
 		item_id SERIAL PRIMARY KEY,
 		item_name VARCHAR(100) NOT NULL,
 		price DECIMAL(10, 2) NOT NULL,
-		store_id INT REFERENCES Store(store_id) ON DELETE CASCADE,
-		category_id INT REFERENCES Category(category_id) ON DELETE CASCADE,
+		store_id INT REFERENCES Store(id) ON DELETE CASCADE,
+		category_id INT REFERENCES Category(id) ON DELETE CASCADE,
 		stock_quantity INT NOT NULL,
 		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 		created_by INT

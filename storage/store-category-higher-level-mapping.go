@@ -11,8 +11,8 @@ func (s *PostgresStore) CreateCategoryHigherLevelMappingTable() error {
 
 	query := `create table if not exists category_higher_level_mapping (
 		category_higher_level_mapping_id SERIAL PRIMARY KEY,
-		higher_level_category_id INT REFERENCES Higher_Level_Category(higher_level_category_id) ON DELETE CASCADE,
-		category_id INT REFERENCES Category(category_id) ON DELETE CASCADE,
+		higher_level_category_id INT REFERENCES Higher_Level_Category(id) ON DELETE CASCADE,
+		category_id INT REFERENCES Category(id) ON DELETE CASCADE,
 		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 		created_by INT
 	)`

@@ -1,28 +1,37 @@
 package types
 
-import (
-	"time"
-)
+import "time"
 
 type Category struct {
-	ID                int       `json:"id"`
-	Name              string    `json:"firstName"`
-	ParentCategory    bool    `json:"parentCategory"`
-	Number			  int64     `json:"number"`
-	CreatedAt         time.Time `json:"createdAt"`
+	ID		int `json:"id"`
+	Name	string `json:"name"`
+	Created_At time.Time `json:"created_at"`
+	Created_By int `json:"created_by"`
 }
 
 type Create_Category struct {
-
-	Name   string    `json:"name"`
-	ParentCategory bool `json:"parentCategory"`
-
+	Name	string `json:"name"`
 }
 
-func NewCategory(name string, parentCategory bool, ) (*Category, error) {
+type Update_Category struct {
+	ID		int `json:"id"`
+	Name		string `json:"name"`
+}
+
+type Delete_Category struct {
+	ID		int `json:"id"`
+}
+
+func New_Category(name string) (*Category, error) {
 	return &Category{
-		Name: name, 
-		ParentCategory: parentCategory,
-		Number: 1,
-	}, nil
+	Name:       name,
+	Created_By: 1,
+}, nil
+}
+
+func New_Update_Category(name string, id int)(*Update_Category, error) {
+	return &Update_Category{
+	Name: name,
+	ID:   id,
+}, nil
 }

@@ -43,7 +43,7 @@ func (s *PostgresStore) Init() error {
 
 	
 
-	errCategory := s.CreateCategoryTable()
+	errCategory := s.Create_Category_Table()
 	if errCategory != nil{
 		return errCategory
 	} else {
@@ -85,7 +85,7 @@ func (s *PostgresStore) Init() error {
 		fmt.Println("Success - Created Cart Item Table")
 	}
 
-	errHigherLevelCategory := s.CreateHigherLevelCategoryTable()
+	errHigherLevelCategory := s.Create_Higher_Level_Category_Table()
 	if errHigherLevelCategory != nil{
 		return errHigherLevelCategory
 	} else {
