@@ -40,6 +40,14 @@ func (s *Server) Handle_Get_Stores(res http.ResponseWriter, req *http.Request) e
 
 	return WriteJSON(res, http.StatusOK, stores)
 }
+func (s *Server) Handle_Get_Stores(res http.ResponseWriter, req *http.Request) error {
+	stores, err := s.store.Get_Stores()
+	if err != nil {
+		return err
+	}
+
+	return WriteJSON(res, http.StatusOK, stores)
+}
 
 func (s *Server) Handle_Update_Store(res http.ResponseWriter, req *http.Request) error {
 
