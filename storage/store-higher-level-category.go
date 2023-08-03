@@ -20,6 +20,7 @@ func (s *PostgresStore) Create_Higher_Level_Category_Table() error {
 
 	_, err := s.db.Exec(query)
 
+	
 	fmt.Println("Exiting CreateHigherLevelCategoryTable")
 
 	return err

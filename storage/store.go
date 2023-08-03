@@ -92,7 +92,7 @@ func (s *PostgresStore) Init() error {
 		fmt.Println("Success - Created Higher Level Category Table")
 	}
 
-	errCategoryHigherLevelMapping := s.CreateCategoryHigherLevelMappingTable()
+	errCategoryHigherLevelMapping := s.Create_Category_Higher_Level_Mapping_Table()
 	if errCategoryHigherLevelMapping != nil{
 		return errCategoryHigherLevelMapping
 	} else {

@@ -36,6 +36,8 @@ func (s *Server) handleStoreManager(res http.ResponseWriter, req *http.Request) 
 	return fmt.Errorf("no matching path")
 }
 
+// Higher Level Category
+
 func (s *Server) handleHigherLevelCategory(res http.ResponseWriter, req *http.Request) error {
 	if req.Method == "GET" {
 
@@ -90,9 +92,39 @@ func (s *Server) handleCategory(res http.ResponseWriter, req *http.Request) erro
 
 	return nil
 }
+
+// Category Higher Level Mapping
+
+func (s *Server) handleCategoryHigherLevelMapping(res http.ResponseWriter, req *http.Request) error {
+	if req.Method == "GET" {
+
+		print_path("GET", "category_higher_level_mapping")
+		return s.Handle_Get_Category_Higher_Level_Mappings(res, req)
+
+	} else if req.Method == "POST" {
+
+		print_path("POST", "category_higher_level_mapping")
+		return s.Handle_Create_Category_Higher_Level_Mapping(res, req)
+
+	} else if req.Method == "PUT" {
+
+		print_path("PUT", "category_higher_level_mapping")
+		return s.Handle_Update_Category_Higher_Level_Mapping(res, req)
+
+	} else if req.Method == "DELETE" {
+
+		print_path("DELETE", "category_higher_level_mapping")
+		return s.Handle_Delete_Category_Higher_Level_Mapping(res, req)
+		
+	}
+
+	return nil
+}
+
+
 // Item
 
-func (s *Server) handleItem(res http.ResponseWriter, req *http.Request) error{
+func (s *Server) handleItem(res http.ResponseWriter, req *http.Request) error {
 	
 	return nil
 }

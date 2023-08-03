@@ -27,6 +27,8 @@ func (s *Server) Run() {
 
 	http.HandleFunc("/higher-level-category", makeHTTPHandleFunc(s.handleHigherLevelCategory))
 	
+	http.HandleFunc("/category-higher-level-mapping", makeHTTPHandleFunc(s.handleCategoryHigherLevelMapping))
+
 	http.HandleFunc("/category", makeHTTPHandleFunc(s.handleCategory))
 	http.HandleFunc("/item", makeHTTPHandleFunc(s.handleItem))
 
