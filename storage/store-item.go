@@ -11,8 +11,8 @@ func (s *PostgresStore) CreateItemTable() error {
 	fmt.Println("Entered CreateItemTable")
 
 	query := `create table if not exists item (
-		item_id SERIAL PRIMARY KEY,
-		item_name VARCHAR(100) NOT NULL,
+		id SERIAL PRIMARY KEY,
+		name VARCHAR(100) NOT NULL,
 		price DECIMAL(10, 2) NOT NULL,
 		store_id INT REFERENCES Store(id) ON DELETE CASCADE,
 		category_id INT REFERENCES Category(id) ON DELETE CASCADE,
@@ -28,7 +28,7 @@ func (s *PostgresStore) CreateItemTable() error {
 	return err
 }
 
-func (s *PostgresStore) CreateProduct(p *types.Product) error {
+func (s *PostgresStore) CreateProduct(p *types.Item) error {
 	query := `insert into product 
 	(name, category, number, quantity, created_at)
 	values ($1, $2, $3, $4, $5)`

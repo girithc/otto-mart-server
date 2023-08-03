@@ -39,6 +39,16 @@ func (s *Server) Handle_Get_Categories(res http.ResponseWriter, req *http.Reques
 	return WriteJSON(res, http.StatusOK, categories)
 }
 
+func (s *Server) Handle_Get_Category_By_Id(res http.ResponseWriter, req *http.Request) error {
+	
+	category, err := s.store.Get_Category_By_ID()
+	if err != nil {
+		return err
+	}
+
+	return WriteJSON(res, http.StatusOK, category)
+}
+
 func (s *Server) Handle_Update_Category(res http.ResponseWriter, req *http.Request) error {
 
 
