@@ -10,9 +10,9 @@ func (s *PostgresStore) CreateCartItemTable() error {
 	fmt.Println("Entered CreateCartItemTable")
 
 	query := `create table if not exists cart_item (
-		cart_item_id SERIAL PRIMARY KEY,
-		cart_id INT REFERENCES Shopping_Cart(cart_id) ON DELETE CASCADE,
-		item_id INT REFERENCES Item(item_id) ON DELETE CASCADE,
+		id SERIAL PRIMARY KEY,
+		cart_id INT REFERENCES Shopping_Cart(id) ON DELETE CASCADE,
+		item_id INT REFERENCES Item(id) ON DELETE CASCADE,
 		quantity INT NOT NULL 
 	)`
 

@@ -78,7 +78,9 @@ func (s *Server) Handle_Update_Category_Higher_Level_Mapping(res http.ResponseWr
 	}
 
 	updated_category_higher_level_mapping, err := s.store.Update_Category_Higher_Level_Mapping(new_req)
-
+	if err != nil {
+		return err
+	}
 
 	return WriteJSON(res, http.StatusOK, updated_category_higher_level_mapping)
 }

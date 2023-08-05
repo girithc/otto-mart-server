@@ -121,14 +121,35 @@ func (s *Server) handleCategoryHigherLevelMapping(res http.ResponseWriter, req *
 	return nil
 }
 
-
 // Item
 
 func (s *Server) handleItem(res http.ResponseWriter, req *http.Request) error {
-	
+	if req.Method == "GET" {
+
+		print_path("GET", "item")
+		return s.Handle_Get_Items(res, req)
+
+	} else if req.Method == "POST" {
+
+		print_path("POST", "item")
+		return s.Handle_Create_Item(res, req)
+
+	} else if req.Method == "PUT" {
+
+		print_path("PUT", "item")
+		return s.Handle_Update_Item(res, req)
+
+	} else if req.Method == "DELETE" {
+
+		print_path("DELETE", "item")
+		return s.Handle_Delete_Item(res, req)
+		
+	}
+
 	return nil
 }
 
 func print_path(rest_type string, table string) {
 	fmt.Printf("\n [%s] - %s \n", rest_type, table)
 }
+

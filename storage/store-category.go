@@ -125,7 +125,7 @@ func (s *PostgresStore) Delete_Category(id int) error {
 	return err
 }
 
-func scan_Into_Category (rows *sql.Rows) (*types.Category, error) {
+func scan_Into_Category(rows *sql.Rows) (*types.Category, error) {
 	category := new(types.Category)
 	err := rows.Scan(
 		&category.ID,

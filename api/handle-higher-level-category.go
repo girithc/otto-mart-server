@@ -58,7 +58,9 @@ func (s *Server) Handle_Update_Higher_Level_Category(res http.ResponseWriter, re
 	}
 
 	updated_higher_level_category, err := s.store.Update_Higher_Level_Category(new_req)
-
+	if err != nil {
+		return err
+	}
 
 	return WriteJSON(res, http.StatusOK, updated_higher_level_category)
 }
