@@ -1,10 +1,10 @@
 package main
- 
+
 import (
-    "fmt"
-    "log"
-    "pronto-go/api"
-    "pronto-go/storage"
+	"fmt"
+	"log"
+	"pronto-go/api"
+	"pronto-go/storage"
 )
  
 
@@ -21,8 +21,7 @@ func main() {
     if err := store.Init(); err != nil {
 		log.Fatal(err)
 	} else {
-        fmt.Println("No Error. Store.Init() is successful.")
-        fmt.Println("Error ", err)
+        fmt.Println("Store.Init() is successful.")
     }
 
     server := api.NewServer(":3000", store)

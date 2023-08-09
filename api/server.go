@@ -32,7 +32,7 @@ func (s *Server) Run() {
 	http.HandleFunc("/category", makeHTTPHandleFunc(s.handleCategory))
 	http.HandleFunc("/item", makeHTTPHandleFunc(s.handleItem))
 
-	fmt.Println("Server Store: ",s.store)
+	fmt.Println("Listening PORT", s.listen_address)
 
 	http.ListenAndServe(s.listen_address, nil)
 }
