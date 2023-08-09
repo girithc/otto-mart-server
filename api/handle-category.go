@@ -31,6 +31,13 @@ func (s *Server) Handle_Create_Category(res http.ResponseWriter, req *http.Reque
 }
 
 func (s *Server) Handle_Get_Categories(res http.ResponseWriter, req *http.Request) error {
+
+	//Get param from body
+
+	//Check if param is empty
+
+	//Param is empty
+	
 	categories, err := s.store.Get_Categories()
 	if err != nil {
 		return err

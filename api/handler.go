@@ -63,7 +63,7 @@ func (s *Server) handleHigherLevelCategory(res http.ResponseWriter, req *http.Re
 
 	return nil
 }
- 
+
 
 // Category
 
