@@ -6,7 +6,7 @@ import (
 
 type Item struct {
 	ID                int       `json:"id"`
-	Name              string    `json:"firstName"`
+	Name              string    `json:"name"`
 	Price			  float64 	`json:"price"`
 	Store_ID		  int		`json:"store_id"`
 	Category_ID       int    `json:"category_id"`
@@ -16,7 +16,7 @@ type Item struct {
 }
 
 type Create_Item struct {
-	Name              string    `json:"firstName"`
+	Name              string    `json:"name"`
 	Price			  float64 	`json:"price"`
 	Store_ID		  int		`json:"store_id"`
 	Category_ID       int    `json:"category_id"`

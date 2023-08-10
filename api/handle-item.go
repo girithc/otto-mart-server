@@ -10,8 +10,12 @@ import (
 
 func (s *Server) Handle_Create_Item(res http.ResponseWriter, req *http.Request) error {
 	
+	fmt.Println("Entered Handle_Get_Items")
+
 	new_req := new(types.Create_Item)
 	
+	fmt.Println("Name : ", new_req.Name)
+
 	if err := json.NewDecoder(req.Body).Decode(new_req); err != nil {
 		fmt.Println("Error in Decoding req.body in Handle_Create_Item()")
 		return err
@@ -33,6 +37,7 @@ func (s *Server) Handle_Create_Item(res http.ResponseWriter, req *http.Request) 
 
 func (s *Server) Handle_Get_Items(res http.ResponseWriter, req *http.Request) error {
 	
+	fmt.Println("Entered Handle_Get_Items")
 	result := new(types.Delete_Item)
 	err := json.NewDecoder(req.Body).Decode(result)
 	if err == io.EOF {

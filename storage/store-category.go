@@ -7,7 +7,6 @@ import (
 	"pronto-go/types"
 
 	"github.com/lib/pq"
-	_ "github.com/lib/pq"
 )
 
 func (s *PostgresStore) Create_Category_Table() error {

@@ -33,7 +33,7 @@ func (s *PostgresStore) Create_Item(p *types.Item) (*types.Item,error) {
 	query := `insert into item 
 	(name, price, store_id, category_id, stock_quantity, created_by)
 	values ($1, $2, $3, $4, $5, $6)
-	returning id, name, price, store_id, category_id, stock_quantity, created_by, created_at`
+	returning id, name, price, store_id, category_id, stock_quantity, created_at, created_by`
 	rows , err := s.db.Query(
 		query,
 		p.Name,
@@ -43,9 +43,13 @@ func (s *PostgresStore) Create_Item(p *types.Item) (*types.Item,error) {
 		p.Stock_Quantity, 
 		p.Created_By)
 
+	fmt.Println("CheckPoint 1")
+
 	if err != nil {
 		return nil, err
 	}
+
+	fmt.Println("CheckPoint 2")
 
 	items := []*types.Item{}
 
@@ -58,11 +62,15 @@ func (s *PostgresStore) Create_Item(p *types.Item) (*types.Item,error) {
 		items = append(items, item)
 	}
 
+	fmt.Println("CheckPoint 3")
 
 	return items[0], err
 }
 
 func (s *PostgresStore) Get_Items() ([]*types.Item, error) {
+	
+	fmt.Println("Entered Get_Items")
+	
 	rows, err := s.db.Query("select * from item")
 
 	if err != nil {
@@ -139,6 +147,7 @@ func (s *PostgresStore) Delete_Item(id int) error {
 func scan_Into_Item(rows *sql.Rows) (*types.Item, error) {
 	item := new(types.Item)
 	err := rows.Scan(
+		&item.ID,
 		&item.Name,
 		&item.Price,
 		&item.Store_ID,
