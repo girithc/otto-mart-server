@@ -3,8 +3,10 @@ package storage
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"pronto-go/types"
 
+	"github.com/lib/pq"
 	_ "github.com/lib/pq"
 )
 
@@ -77,6 +79,55 @@ func (s *PostgresStore) Get_Categories() ([]*types.Category, error) {
 	return categories, nil
 }
 
+func(s *PostgresStore) Get_Category_By_Parent_ID(id int) ([]*types.Update_Category, error) {
+	
+	rows, err := s.db.Query("select category_id from category_higher_level_mapping where higher_level_category_id = $1", id)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
+
+	var childIDs []int
+
+	for rows.Next() {
+		var childID int
+		if err := rows.Scan(&childID); err != nil {
+			log.Fatal(err)
+		}
+		childIDs = append(childIDs, childID)
+ 	}
+
+	 if err := rows.Err(); err != nil {
+        log.Fatal(err)
+    }
+
+	categoryQuery := "select name, id from category where id = ANY($1::integer[])"
+
+	rows, err = s.db.Query(categoryQuery, pq.Array(childIDs))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer rows.Close()
+
+	categories := []*types.Update_Category{}
+
+	for rows.Next() {
+		category, err := scan_Into_Update_Category(rows)
+		if err != nil {
+			return nil, err
+		}
+		categories = append(categories, category)
+	}
+
+	if err := rows.Err(); err != nil {
+		log.Fatal(err)
+	}
+ 
+	return categories, nil
+}
+
 func (s *PostgresStore) Get_Category_By_ID(id int) (*types.Category, error) {
 	row, err := s.db.Query("select * from category where id = $1", id)
 	if err != nil {
@@ -146,3 +197,4 @@ func scan_Into_Update_Category(rows *sql.Rows) (*types.Update_Category, error) {
 
 	return category, error
 } 
+

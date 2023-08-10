@@ -40,8 +40,9 @@ func New_Item(name string, price float64, category_id int, store_id int, stock_q
 	Name:           name,
 	Price:          price,
 	Category_ID:    category_id,
-	Stock_Quantity: stock_quantity,
 	Store_ID: store_id,
+	Stock_Quantity: stock_quantity,
+	Created_By: 1,
 }, nil
 }
 

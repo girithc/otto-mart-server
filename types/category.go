@@ -22,6 +22,10 @@ type Delete_Category struct {
 	ID		int `json:"id"`
 }
 
+type Category_Parent_Id struct {
+	ID		int `json:"id"`
+}
+
 func New_Category(name string) (*Category, error) {
 	return &Category{
 	Name:       name,
@@ -33,5 +37,11 @@ func New_Update_Category(name string, id int)(*Update_Category, error) {
 	return &Update_Category{
 	Name: name,
 	ID:   id,
+}, nil
+}
+
+func New_Category_Parent_Id(id int)(*Category_Parent_Id, error) {
+	return &Category_Parent_Id{
+	ID: id,
 }, nil
 }

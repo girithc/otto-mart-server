@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"pronto-go/types"
+	"strconv"
 )
 
 func (s *Server) Handle_Create_Category(res http.ResponseWriter, req *http.Request) error {
@@ -32,18 +33,36 @@ func (s *Server) Handle_Create_Category(res http.ResponseWriter, req *http.Reque
 
 func (s *Server) Handle_Get_Categories(res http.ResponseWriter, req *http.Request) error {
 
-	//Get param from body
+	//check if req has empty body
+	hlc_id := req.URL.Query().Get("id")
 
-	//Check if param is empty
+    // Check if the Content-Length header is empty or 0
+    if hlc_id == "" || hlc_id == "0" {
+        categories, err := s.store.Get_Categories()
+		if err != nil {
+			return err
+		}
 
-	//Param is empty
-	
-	categories, err := s.store.Get_Categories()
-	if err != nil {
-		return err
+		return WriteJSON(res, http.StatusOK, categories)
+    } else {
+		num, err := strconv.Atoi(hlc_id)
+		new_category_parent, err := types.New_Category_Parent_Id(num)
+
+		if err != nil {
+			return err
+		}
+
+		if new_category_parent.ID > 0 {
+
+			categories, err := s.store.Get_Category_By_Parent_ID(new_category_parent.ID)
+			if err != nil {
+				return err
+			}
+			return WriteJSON(res, http.StatusOK, categories)
+
+		}
 	}
-
-	return WriteJSON(res, http.StatusOK, categories)
+	return fmt.Errorf("End Of Function Handle_Get_Categories")
 }
 
 
