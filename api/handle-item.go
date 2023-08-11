@@ -3,9 +3,9 @@ package api
 import (
 	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 	"pronto-go/types"
+	"strconv"
 )
 
 func (s *Server) Handle_Create_Item(res http.ResponseWriter, req *http.Request) error {
@@ -37,27 +37,57 @@ func (s *Server) Handle_Create_Item(res http.ResponseWriter, req *http.Request) 
 
 func (s *Server) Handle_Get_Items(res http.ResponseWriter, req *http.Request) error {
 	
-	fmt.Println("Entered Handle_Get_Items")
-	result := new(types.Delete_Item)
-	err := json.NewDecoder(req.Body).Decode(result)
-	if err == io.EOF {
-		items, err := s.store.Get_Items()
+	//check if req has empty body
+	category_id := req.URL.Query().Get("category_id")
+	store_id := req.URL.Query().Get("store_id")
+
+    // Check if the Content-Length header is empty or 0
+    if (category_id == "" || category_id == "0") && (store_id == "" || store_id == "0") {
+        fmt.Println("Entered No Category_id and Store_id")
+		item_id := req.URL.Query().Get("item_id")
+
+		if (item_id == "" || item_id == "0") {
+			items, err := s.store.Get_Items()
+			if err != nil {
+				return err
+			}
+
+			return WriteJSON(res, http.StatusOK, items)
+		}
+
+		itemID, err := strconv.Atoi(item_id)
+		if err != nil {
+			return err
+		}
+		
+		items, err := s.store.Get_Item_By_ID(itemID)
+		if err != nil {
+			return err
+		}
+		return WriteJSON(res, http.StatusOK, items)
+
+    } else if  (category_id == "" || category_id == "0") {
+		return fmt.Errorf("category_id is empty. Please provide category_id value")
+	} else if (store_id == "" || store_id == "0") {
+		return fmt.Errorf("store_id is empty. Please provide store_id value")
+	} else {
+		fmt.Println("Category and Store ID present")
+		categoryID, err := strconv.Atoi(category_id)
 		if err != nil {
 			return err
 		}
 
+		storeID, err := strconv.Atoi(store_id)
+		if err != nil {
+			return err
+		}
+
+		items, err := s.store.Get_Items_By_CategoryID_And_StoreID(categoryID, storeID)
+		if err != nil {
+			return err
+		}
 		return WriteJSON(res, http.StatusOK, items)
 	}
-
-	if err != nil {
-		return err
-	}
-	
-	items, err := s.store.Get_Item_By_ID(result.ID)
-	if err != nil {
-		return err
-	}
-	return WriteJSON(res, http.StatusOK, items)
 }
 
 func (s *Server) Handle_Update_Item(res http.ResponseWriter, req *http.Request) error {

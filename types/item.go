@@ -4,6 +4,7 @@ import (
 	"time"
 )
 
+//Basic
 type Item struct {
 	ID                int       `json:"id"`
 	Name              string    `json:"name"`
@@ -33,6 +34,16 @@ type Update_Item struct {
 
 type Delete_Item struct {
 	ID		int `json:"id"`
+}
+
+//Custom
+type Get_Items_By_CategoryID_And_StoreID struct {
+	ID                int       `json:"id"`
+	Name              string    `json:"name"`
+	Price			  float64 	`json:"price"`
+	Store_ID		  int		`json:"store_id"`
+	Category_ID       int    `json:"category_id"`
+	Stock_Quantity    int     `json:"stock_quantity"`
 }
 
 func New_Item(name string, price float64, category_id int, store_id int, stock_quantity int)(*Item, error) {

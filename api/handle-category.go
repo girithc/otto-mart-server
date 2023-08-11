@@ -33,10 +33,10 @@ func (s *Server) Handle_Create_Category(res http.ResponseWriter, req *http.Reque
 
 func (s *Server) Handle_Get_Categories(res http.ResponseWriter, req *http.Request) error {
 
-	//check if req has empty body
+	//check if req has empty url param
 	hlc_id := req.URL.Query().Get("id")
 
-    // Check if the Content-Length header is empty or 0
+    // Check if URL Param is empty or 0
     if hlc_id == "" || hlc_id == "0" {
         categories, err := s.store.Get_Categories()
 		if err != nil {

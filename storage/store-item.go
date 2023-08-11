@@ -89,6 +89,27 @@ func (s *PostgresStore) Get_Items() ([]*types.Item, error) {
 	return items , nil
 }
 
+func (s *PostgresStore) Get_Items_By_CategoryID_And_StoreID(category_id int, store_id int) ([]*types.Get_Items_By_CategoryID_And_StoreID, error) {
+	
+	fmt.Println("Entered Get_Items_By_CategoryID_And_StoreID")
+	rows, err := s.db.Query("select id, name, price, store_id, category_id, stock_quantity from item where category_id = $1 AND store_id = $2", category_id, store_id)
+
+	if err != nil {
+		return nil, err
+	}
+
+	items := []*types.Get_Items_By_CategoryID_And_StoreID{}
+	for rows.Next() {
+		item, err := scan_Into_Items_By_CategoryID_And_StoreID(rows)
+		if err != nil {
+			return nil, err
+		}
+		items = append(items, item)
+	}
+
+	return items , nil
+}
+
 func (s *PostgresStore) Get_Item_By_ID(id int) (*types.Item, error) {
 	row, err := s.db.Query("select * from item where id = $1", id)
 	if err != nil {
@@ -172,3 +193,17 @@ func scan_Into_Update_Item(rows *sql.Rows) (*types.Update_Item, error) {
 
 	return item, error
 } 
+
+func scan_Into_Items_By_CategoryID_And_StoreID(rows *sql.Rows) (*types.Get_Items_By_CategoryID_And_StoreID, error) {
+	item := new(types.Get_Items_By_CategoryID_And_StoreID)
+	err := rows.Scan(
+		&item.ID,
+		&item.Name,
+		&item.Price,
+		&item.Store_ID,
+		&item.Category_ID, 
+		&item.Stock_Quantity,
+	)
+
+	return item, err
+}
