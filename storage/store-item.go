@@ -18,8 +18,6 @@ func (s *PostgresStore) CreateItemTable() error {
 		store_id INT REFERENCES Store(id) ON DELETE CASCADE,
 		category_id INT REFERENCES Category(id) ON DELETE CASCADE,
 		stock_quantity INT NOT NULL,
-		quantity DECIMAL NOT NULL,
-    	unit_of_measurement VARCHAR(2) NOT NULL -- "gm" or "ml"
 		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 		created_by INT
 	)`
