@@ -92,12 +92,23 @@ func (s *Server) Handle_Get_Items(res http.ResponseWriter, req *http.Request) er
 
 func (s *Server) Handle_Update_Item(res http.ResponseWriter, req *http.Request) error {
 
+	
 
 	new_req := new(types.Update_Item)
+	
 	if err := json.NewDecoder(req.Body).Decode(new_req); err != nil {
 		fmt.Println("Error Decode Item()")
 		return err
 	}
+
+	print("Updated Id: ", new_req.ID)
+	print("Updated Name: ", new_req.Name)
+	print("Updated Price: ", new_req.Price)
+	print("Updated Stock Quantity: ", new_req.Stock_Quantity)
+	print("Updated Category Id: ", new_req.Category_ID)
+
+
+
 
 	item, err := s.store.Get_Item_By_ID(new_req.ID)
 	if err != nil {

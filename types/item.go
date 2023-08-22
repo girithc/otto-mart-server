@@ -26,7 +26,7 @@ type Create_Item struct {
 
 type Update_Item struct {
 	ID				  int       `json:"id"`
-	Name              string    `json:"firstName"`
+	Name              string    `json:"name"`
 	Price			  float64 	`json:"price"`
 	Category_ID       int    `json:"category_id"`
 	Stock_Quantity    int     `json:"stock_quantity"`
